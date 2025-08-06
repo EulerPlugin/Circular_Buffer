@@ -55,14 +55,26 @@ The wrap mask is then defined as `clp2(x) - 1`, based on this value. For example
 <img width="437" height="159" alt="image" src="https://github.com/user-attachments/assets/2c7f2b91-5592-42a9-ad7e-d80b39a27b74" />
 </p>
 
-Circular buffer에는 다음과 같은 두 가지 주요 구현 방식이 있다:
+<br>
 
-Variable Delay Circular Buffer
-하나의 write pointer만 유지
-읽을 때 delay를 직접 지정
-read_sample(delay)에서 read_pointer = (write_pointer - delay) & wrap_mask 방식으로 읽기
-delay 값을 매번 다르게 줄 수 있어 유연함
-Fixed Delay Circular Buffer with Read Pointer
-write pointer와 read pointer를 모두 유지
-write와 read 수가 다르면 overrun 또는 underrun이 발생할 수 있음
-실시간 처리에 적합 (고정된 딜레이, 일정한 읽기/쓰기 주기 유지 가능)
+There are two main implementation approaches for circular buffers:
+
+### Variable Delay Circular Buffer
+- Only a write pointer is maintained
+- The delay is specified directly at the time of reading
+- Reading is done using `read_pointer = (write_pointer - delay) & wrap_mask`
+- Allows flecibillity by supporting varying delay values for each read
+
+### Fixed Delay Circular Buffer with Read Pointer
+- Both write and read pointers are maintained
+- If the number of writes and read differ, overrun or underrun may occur
+- Suitable for real-time processing, where a fices delay and consistent read/write cycle are required
+
+I devided my project into these tow implementation cases, and additionally worked on a 
+__feedforward comb filter__ implementation using a circular buffer
+
+<p align="center">
+<img width="479" height="191" alt="image" src="https://github.com/user-attachments/assets/5174da67-ae88-4a1c-b59b-f374f3043bad" />
+</p>
+
+
