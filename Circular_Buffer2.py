@@ -34,6 +34,7 @@ class CircularBuffer:
 
         return sample
 
+'''
 # Overrun example
 cb = CircularBuffer(size=4, delay=2)
 cb.write_sample(1)
@@ -44,3 +45,4 @@ cb.write_sample(3)  # Overrun occurs here: write_pointer catches up to read_poin
 # Underrun example
 cb = CircularBuffer(size=4, delay=4)  # delay == size → read_pointer == write_pointer
 cb.read_sample()  # Underrun occurs here: trying to read before any write
+'''
