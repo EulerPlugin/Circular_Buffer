@@ -30,9 +30,9 @@ write_pointer = (write_pointer + 1) % buffer_size
 
 <br>
 
-### Wraparound Optimization 
+### We used wraparound Optimization 
 
-This prohect used a method based on bit masking. This approach is only applicable whten the buffer size is a power of two, and the wrap mask is calculated as follows:
+This project used a method based on bit masking. This approach is only applicable whten the buffer size is a power of two, and the wrap mask is calculated as follows:
 
 ~~~
 wrap_mask = buffer_size - 1
@@ -45,7 +45,16 @@ To do this, we first need to find the smallest power of two that is greater than
 clp2(x) = 2^ceil(log2(x))
 ~~~
 
-wrap mask는 이 값을 기반으로 clp2(x) - 1로 정의된다. 예를 들어, x = 5라면 clp2(5) = 8, 따라서 wrap_mask = 7이 된다.
+The wrap mask is then defined as `clp2(x) - 1`, based on this value. For example, if `x = 5`, then `clp2(5) = 8`, so the resulting `wrap_mask` is 7.
+
+<p align="center">
+<img width="207" height="76" alt="image" src="https://github.com/user-attachments/assets/b0c8887e-1803-465f-bbb0-a8955d5788ab" />
+</p>
+
+<p align="center">
+<img width="437" height="159" alt="image" src="https://github.com/user-attachments/assets/2c7f2b91-5592-42a9-ad7e-d80b39a27b74" />
+</p>
+
 Circular buffer에는 다음과 같은 두 가지 주요 구현 방식이 있다:
 
 Variable Delay Circular Buffer
