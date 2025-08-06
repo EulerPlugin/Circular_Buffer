@@ -1,22 +1,50 @@
 # Circular_Buffer
 
-A circular buffer is a data structure used to efficiently implement a delay line. In a typical array-based approach, inserting a new sample requires shifting all existing data, resulting in O(N) complexity. However, a circular buffer only updates pointers, achieving O(1) performance.
+A circular buffer is a data structure used to efficiently implement a delay line. In a typical array-based approach, inserting a new sample requires shifting all existing data, resulting in `O(N)` complexity. However, a circular buffer only updates pointers, achieving `O(1)` performance.
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/06be3037-0430-43ce-b90b-997a4d5c5d09" width="183" height="688" />
+</p>
 
-Circular buffer를 구현하는 방식에는 몇 가지가 있다. 대표적으로 write pointer가 버퍼 크기를 넘을 경우를 처리하는 wraparound 방식에는 다음과 같은 코드들이 있다:
+<br>
 
+### There are several ways to implement a circular buffer. 
+One common aspect is how to handle the case when the write pointer exceeds the buffer size. Typical implementations include the following approaches:
+
+~~~
 write_pointer = write_pointer + 1
-if write_pointer >= buffer_size:
-    write_pointer -= buffer_size
+
+    if write_pointer >= buffer_size:
+       write_pointer -= buffer_size
+~~~
+
+~~~
 write_pointer = write_pointer + 1
-if write_pointer == buffer_size:
-    write_pointer -= buffer_size
+    if write_pointer == buffer_size:
+       write_pointer -= buffer_size
+~~~
+
+~~~
 write_pointer = (write_pointer + 1) % buffer_size
-이 강의에서는 비트 마스크를 활용한 Wraparound Optimization 방식을 사용했다. 이 방식은 버퍼 크기가 2의 거듭제곱일 때만 사용 가능하며, 다음과 같이 wrap mask를 계산한다:
+~~~
+
+<br>
+
+### Wraparound Optimization 
+
+This prohect used a method based on bit masking. This approach is only applicable whten the buffer size is a power of two, and the wrap mask is calculated as follows:
+
+~~~
 wrap_mask = buffer_size - 1
 write_pointer = (write_pointer + 1) & wrap_mask
-이를 위해 먼저 사용자가 요청한 버퍼 크기보다 크거나 같은 2의 거듭제곱값을 찾아야 한다. 이 연산은 다음과 같은 수식으로 정의된다:
+~~~
+
+To do this, we first need to find the smallest power of two that is greater than or equal to the buffer size requested by the user. This operation is defined by the following expression:
+
+~~~
 clp2(x) = 2^ceil(log2(x))
+~~~
+
 wrap mask는 이 값을 기반으로 clp2(x) - 1로 정의된다. 예를 들어, x = 5라면 clp2(5) = 8, 따라서 wrap_mask = 7이 된다.
 Circular buffer에는 다음과 같은 두 가지 주요 구현 방식이 있다:
 
